@@ -2,10 +2,452 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Мой сайт</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6f2">
+    <meta name="description" content="Небольшой сайт с большими планами.">
+    <title>Мой сайт — привет!</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #20211f;
+            --muted: #777972;
+            --accent: #6b63e8;
+            --paper: #f7f6f2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page {
+            position: relative;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .page::before {
+            position: absolute;
+            z-index: -1;
+            top: -25rem;
+            right: -17rem;
+            width: 58rem;
+            height: 58rem;
+            border: 1px solid rgba(107, 99, 232, 0.1);
+            border-radius: 50%;
+            box-shadow: 0 0 0 5rem rgba(107, 99, 232, 0.025), 0 0 0 10rem rgba(107, 99, 232, 0.02);
+            content: "";
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 64px));
+            margin-inline: auto;
+        }
+
+        .topbar {
+            display: flex;
+            height: 100px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(32, 33, 31, 0.09);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 15px;
+            font-weight: 750;
+            letter-spacing: -0.04em;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border-radius: 11px;
+            background: var(--ink);
+            color: white;
+            font-size: 15px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 550;
+        }
+
+        .nav a {
+            transition: color 180ms ease;
+        }
+
+        .nav a:hover {
+            color: var(--accent);
+        }
+
+        main {
+            display: grid;
+            flex: 1;
+            align-items: center;
+            padding-block: 74px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.08fr 0.92fr;
+            align-items: center;
+            gap: clamp(44px, 8vw, 100px);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 25px;
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            width: 22px;
+            height: 1px;
+            background: currentColor;
+            content: "";
+        }
+
+        h1 {
+            max-width: 620px;
+            margin: 0;
+            font-size: clamp(58px, 8vw, 98px);
+            font-weight: 720;
+            letter-spacing: -0.085em;
+            line-height: 0.98;
+        }
+
+        h1 span {
+            display: block;
+            color: var(--accent);
+        }
+
+        .intro {
+            max-width: 430px;
+            margin: 27px 0 0;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 21px;
+            margin-top: 37px;
+        }
+
+        .button {
+            display: inline-flex;
+            min-height: 52px;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+            padding: 0 21px;
+            border-radius: 14px;
+            background: var(--ink);
+            color: white;
+            font-size: 13px;
+            font-weight: 650;
+            transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+            box-shadow: 0 10px 24px rgba(107, 99, 232, 0.2);
+        }
+
+        .button span {
+            font-size: 17px;
+            transition: transform 180ms ease;
+        }
+
+        .button:hover span {
+            transform: translateX(3px);
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .visual {
+            position: relative;
+            display: grid;
+            min-height: 410px;
+            place-items: center;
+        }
+
+        .visual::before,
+        .visual::after {
+            position: absolute;
+            border-radius: 50%;
+            content: "";
+        }
+
+        .visual::before {
+            width: 310px;
+            height: 310px;
+            background: #e8e5fb;
+        }
+
+        .visual::after {
+            top: 45px;
+            right: 12px;
+            width: 77px;
+            height: 77px;
+            background: #f2c99e;
+        }
+
+        .orb {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            width: 218px;
+            height: 218px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: 50%;
+            background: linear-gradient(145deg, #aaa4ff 4%, #766be5 48%, #5148b9 100%);
+            box-shadow: inset -14px -18px 34px rgba(45, 37, 132, 0.18), 0 28px 60px rgba(83, 73, 183, 0.24);
+            color: white;
+            font-size: 69px;
+            font-weight: 650;
+            letter-spacing: -0.1em;
+            transform: rotate(-9deg);
+        }
+
+        .floating-card {
+            position: absolute;
+            z-index: 2;
+            right: 2px;
+            bottom: 45px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 15px 40px rgba(40, 35, 83, 0.09);
+            backdrop-filter: blur(12px);
+        }
+
+        .sparkle {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border-radius: 11px;
+            background: #f0efff;
+            color: var(--accent);
+            font-size: 19px;
+        }
+
+        .floating-card strong,
+        .floating-card small {
+            display: block;
+        }
+
+        .floating-card strong {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .floating-card small {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .footer {
+            display: flex;
+            min-height: 76px;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(32, 33, 31, 0.09);
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .footer span:last-child {
+            letter-spacing: 0.04em;
+        }
+
+        @media (max-width: 760px) {
+            .shell {
+                width: min(100% - 40px, 540px);
+            }
+
+            .topbar {
+                height: 76px;
+            }
+
+            .nav {
+                gap: 19px;
+                font-size: 12px;
+            }
+
+            main {
+                padding-block: 55px 35px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            h1 {
+                font-size: clamp(58px, 13vw, 82px);
+            }
+
+            .visual {
+                min-height: 340px;
+            }
+
+            .visual::before {
+                width: 260px;
+                height: 260px;
+            }
+
+            .orb {
+                width: 185px;
+                height: 185px;
+                font-size: 60px;
+            }
+
+            .visual::after {
+                top: 28px;
+                right: 10%;
+                width: 62px;
+                height: 62px;
+            }
+
+            .floating-card {
+                right: 4%;
+                bottom: 26px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .shell {
+                width: calc(100% - 36px);
+            }
+
+            .nav {
+                gap: 13px;
+                font-size: 11px;
+            }
+
+            .brand {
+                gap: 8px;
+                font-size: 13px;
+            }
+
+            .brand-mark {
+                width: 31px;
+                height: 31px;
+            }
+
+            .intro {
+                font-size: 15px;
+            }
+
+            .actions {
+                gap: 14px;
+            }
+
+            .button {
+                padding-inline: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Привет, мир!</h1>
-    <p>Это мой сайт за 20 минут.</p>
+    <div class="page">
+        <header class="topbar shell">
+            <a class="brand" href="#" aria-label="Мой сайт — главная">
+                <span class="brand-mark" aria-hidden="true">м.</span>
+                <span>мой сайт</span>
+            </a>
+            <nav class="nav" aria-label="Основная навигация">
+                <a href="#home">Главная</a>
+                <a href="#about">О проекте</a>
+            </nav>
+        </header>
+
+        <main class="shell" id="home">
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="copy">
+                    <p class="eyebrow">Небольшой сайт, большие планы</p>
+                    <h1 id="hero-title">Привет,<span>мир!</span></h1>
+                    <p class="intro" id="about">
+                        Это мой сайт за 20 минут. Пока здесь только начало — самое время придумать, что будет дальше.
+                    </p>
+                    <div class="actions">
+                        <a class="button" href="#about">Начать знакомство <span aria-hidden="true">→</span></a>
+                        <span class="note">Рад, что ты здесь</span>
+                    </div>
+                </div>
+                <div class="visual" aria-hidden="true">
+                    <div class="orb">м!</div>
+                    <div class="floating-card">
+                        <span class="sparkle">✳</span>
+                        <span><strong>Всё начинается</strong><small>с первой идеи</small></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer shell">
+            <span>© 2026 · Мой сайт</span>
+            <span>Сделано с любопытством</span>
+        </footer>
+    </div>
 </body>
 </html>
